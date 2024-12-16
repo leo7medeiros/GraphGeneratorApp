@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseContent:BaseContentView
+    x:Class="GraphGeneratorApp.UI.Components.CustomBotaoGeral"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:baseContent="clr-namespace:GraphGeneratorApp.UI.Views.BaseContent"
+    xmlns:custom="clr-namespace:GraphGeneratorApp.UI.Components"
+    x:Name="baseContentView">
+
+    <Border
+        x:Name="borda"
+        Margin="0"
+        Padding="0"
+        HeightRequest="55"
+        Stroke="{StaticResource TRANSPARENT}"
+        StrokeThickness="2">
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer x:Name="tapGesture" Tapped="TapGestureRecognizer_Tapped" />
+        </Border.GestureRecognizers>
+
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="10" />
+        </Border.StrokeShape>
+
+        <HorizontalStackLayout x:Name="InternalGrid" HorizontalOptions="Center">
+            <custom:CustomRenderizadorSVG
+                x:Name="InternalIconLeft"
+                AlturaCustomizada="25"
+                IsVisible="false"
+                LarguraCustomizada="25"
+                Proporcao="True" />
+
+            <Label
+                x:Name="InternalLabel"
+                CharacterSpacing="2"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelBotaoGeral}"
+                VerticalOptions="Center" />
+
+            <custom:CustomRenderizadorSVG
+                x:Name="InternalIconRight"
+                AlturaCustomizada="25"
+                IsVisible="True"
+                LarguraCustomizada="25"
+                Proporcao="True"
+                VerticalOptions="CenterAndExpand" />
+        </HorizontalStackLayout>
+    </Border>
+
+</baseContent:BaseContentView>

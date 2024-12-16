@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:componentes="using:GraphGeneratorApp.UI.Components">
+
+    <!--  BOTÃO PRIMÁRIO  -->
+    <Style x:Key="BotaoPrimarioStyle" TargetType="componentes:CustomBotaoGeral">
+        <Setter Property="CorFundo" Value="{StaticResource AZUL_ESCURO_PRIMARIO}" />
+        <Setter Property="CorTexto" Value="{StaticResource TEXTO_BRANCO}" />
+        <Setter Property="WidthRequest" Value="320" />
+        <Setter Property="EspacamentoIconeTexto" Value="10" />
+    </Style>
+
+    <!--  BOTÃO SECUNDÁRIO  -->
+    <Style x:Key="BotaoSecundarioStyle" TargetType="componentes:CustomBotaoGeral">
+        <Setter Property="CorFundo" Value="{StaticResource LARANJA_SECUNDARIO}" />
+        <Setter Property="CorTexto" Value="{StaticResource TEXTO_BRANCO}" />
+        <Setter Property="WidthRequest" Value="320" />
+        <Setter Property="EspacamentoIconeTexto" Value="10" />
+    </Style>
+
+</ResourceDictionary>

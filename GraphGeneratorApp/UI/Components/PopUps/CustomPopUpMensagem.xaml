@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pop:PopupPage
+    x:Class="GraphGeneratorApp.UI.Components.CustomPopUpMensagem"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:custom="clr-namespace:GraphGeneratorApp.UI.Components"
+    xmlns:pop="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="{StaticResource BACKGROUND_POPUP_SHADOW}"
+    CloseWhenBackgroundIsClicked="False">
+
+    <pop:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="500"
+            EasingIn="SpringIn"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1"
+            ScaleOut="0.7" />
+    </pop:PopupPage.Animation>
+
+    <Frame
+        Margin="30"
+        Padding="5"
+        BackgroundColor="{StaticResource BACKGROUND_WHITE}"
+        CornerRadius="10"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+
+        <StackLayout Orientation="Vertical">
+            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto">
+                <Label
+                    Margin="10,5,5,0"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    HorizontalOptions="StartAndExpand"
+                    Text="{Binding Titulo}"
+                    TextColor="{Binding CorMensagem}"
+                    VerticalOptions="Start" />
+
+                <custom:CustomRenderizadorSVG
+                    x:Name="iconeSVG"
+                    Grid.Column="1"
+                    Margin="2"
+                    CorIcone="{Binding CorMensagem}"
+                    HeightRequest="40"
+                    HorizontalOptions="EndAndExpand"
+                    Proporcao="True"
+                    VerticalOptions="Start"
+                    WidthRequest="40" />
+            </Grid>
+
+            <ScrollView Margin="5" MaximumHeightRequest="100">
+                <Label
+                    FontSize="Medium"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding Mensagem}"
+                    TextColor="{x:StaticResource TEXTO_PRETO}" />
+            </ScrollView>
+
+            <StackLayout Margin="0,5,0,0" VerticalOptions="EndAndExpand">
+                <Rectangle
+                    BackgroundColor="{x:StaticResource BACKGROUND_CINZA_CLARO}"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    StrokeThickness="1" />
+
+                <custom:CustomBotaoGeral
+                    x:Name="btnOk"
+                    Margin="10,10,0,5"
+                    Altura="40"
+                    Clicado="ButtonOk_Clicked"
+                    HorizontalOptions="FillAndExpand"
+                    Largura="125"
+                    Style="{StaticResource BotaoPrimarioStyle}"
+                    Texto="OK"
+                    VerticalOptions="EndAndExpand" />
+            </StackLayout>
+        </StackLayout>
+    </Frame>
+
+</pop:PopupPage>

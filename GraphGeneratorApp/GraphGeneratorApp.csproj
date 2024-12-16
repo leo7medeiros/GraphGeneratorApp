@@ -57,12 +57,55 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+	  <None Remove="Resources\Fonts\Roboto-Black.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Bold.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Light.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Medium.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
+	  <None Remove="Resources\Images\Incorporadas\icone_aviso.svg" />
+	  <None Remove="Resources\Images\Incorporadas\icone_editar.svg" />
+	  <None Remove="Resources\Images\Incorporadas\icone_erro.svg" />
+	  <None Remove="Resources\Images\Incorporadas\icone_excluir.svg" />
+	  <None Remove="Resources\Images\Incorporadas\icone_info.svg" />
+	  <None Remove="Resources\Images\Incorporadas\logo_btg.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Images\Incorporadas\icone_aviso.svg" />
+	  <EmbeddedResource Include="Resources\Images\Incorporadas\icone_editar.svg" />
+	  <EmbeddedResource Include="Resources\Images\Incorporadas\icone_erro.svg" />
+	  <EmbeddedResource Include="Resources\Images\Incorporadas\icone_excluir.svg" />
+	  <EmbeddedResource Include="Resources\Images\Incorporadas\icone_info.svg" />
+	  <EmbeddedResource Include="Resources\Images\Incorporadas\logo_btg.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+		<PackageReference Include="Mopups" Version="1.3.2" />
+		<PackageReference Include="SkiaSharp.Extended" Version="2.0.0" />
+		<PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.116.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Resources\Styles\Components\CustomBotaoGeral.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="UI\Components\CustomBotaoGeral.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="UI\Components\CustomRenderizadorSVG.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="UI\Components\PopUps\CustomPopUpConfirmar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="UI\Components\PopUps\CustomPopUpMensagem.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="UI\Views\TelaPrincipalPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
