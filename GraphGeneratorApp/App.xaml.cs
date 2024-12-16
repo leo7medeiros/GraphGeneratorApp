@@ -1,4 +1,6 @@
-﻿namespace GraphGeneratorApp
+﻿using GraphGeneratorApp.UI.Views;
+
+namespace GraphGeneratorApp
 {
     public partial class App : Application
     {
@@ -6,7 +8,8 @@
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = new NavigationPage(new TelaPrincipalPage());
+            NavigationPage.SetHasNavigationBar(MainPage, false);
         }
     }
 }
