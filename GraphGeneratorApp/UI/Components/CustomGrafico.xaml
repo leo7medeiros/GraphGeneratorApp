@@ -56,7 +56,7 @@
                 <!--  GRÁFICO  -->
                 <Frame
                     Grid.Row="1"
-                    Padding="0"
+                    Padding="-1"
                     BackgroundColor="{Binding Grafico.BackgroundColor}"
                     BorderColor="Transparent"
                     CornerRadius="10">

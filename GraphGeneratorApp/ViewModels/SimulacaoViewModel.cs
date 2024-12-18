@@ -6,6 +6,7 @@ using Microcharts;
 using Mopups.Services;
 using SkiaSharp;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace GraphGeneratorApp.ViewModels
 {
@@ -33,7 +34,28 @@ namespace GraphGeneratorApp.ViewModels
             }
         }
 
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value; OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
+        public ICommand? RefreshCommand { get; }
+
         private int IdGraficoExclusao = 0;
+
+        #endregion
+
+        #region CONSTRUTOR
+
+        public SimulacaoViewModel()
+        {
+            RefreshCommand = new Command(async () => await ExecutarRefresh());
+        }
 
         #endregion
 
@@ -46,7 +68,7 @@ namespace GraphGeneratorApp.ViewModels
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     // OBTEM VALORES PARA GERAÇÃO DO GRÁFICO
-                    double[] valoresGrafico = GenerateBrownianMotion(simulacao.VotalidadeMedia, simulacao.RetornoMedio, simulacao.PrecoInicial, simulacao.Tempo);
+                    double[] valoresGrafico = GenerateBrownianMotion(simulacao.VotalidadeMedia / 100.0, simulacao.RetornoMedio / 100.0, simulacao.PrecoInicial, simulacao.Tempo);
 
                     // GERA GRÁFICO PERSONALIZADO
                     Chart grafico = GeraGrafico(valoresGrafico, simulacao);
@@ -107,11 +129,19 @@ namespace GraphGeneratorApp.ViewModels
             try
             {
                 ListaGraficoView.Clear();
+                QtdeSimulacoes = ListaGraficoView.Count;
             }
             catch (Exception ex)
             {
                 await CustomPopUpMensagem.Alerta("ERRO!", ex.Message, Tipos.TipoNotificacao.Erro);
             }
+        }
+
+        private async Task ExecutarRefresh()
+        {
+            await Task.Delay(1000);
+            ListaGraficoView = ListaGraficoView;
+            IsRefreshing = false;
         }
 
         #endregion
@@ -153,20 +183,21 @@ namespace GraphGeneratorApp.ViewModels
             {
                 entries.Add(new ChartEntry((float)valores[i])
                 {
+                    ValueLabelColor = SKColor.Parse(simulacao.CorFrenteGrafico),
                     Label = $"Dia {i + 1}",
                     ValueLabel = valores[i].ToString("F2"),
-                    Color = SKColor.Parse("#F79B42")
+                    Color = SKColor.Parse(simulacao.CorFrenteGrafico)
                 });
             }
 
             var chart = new LineChart
             {
                 Entries = entries,
-                LineMode = LineMode.Straight,
+                LineMode = LineMode.Straight, // ALTERA O MODO DE EXIBIÇÃO DAS LINHAS DO GRÁFICO
                 LineSize = 8,
                 PointSize = 4,
-                LabelColor = SKColor.Parse("#F79B42"),
-                BackgroundColor = SKColor.Parse("#005495")
+                LabelColor = SKColor.Parse(simulacao.CorFrenteGrafico),
+                BackgroundColor = SKColor.Parse(simulacao.CorFundoGrafico)
             };
 
             return chart;

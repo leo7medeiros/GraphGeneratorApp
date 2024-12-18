@@ -91,24 +91,28 @@
             </StackLayout>
 
             <!--  LISTA DE SIMULAÇÕES  -->
-            <CollectionView
-                Grid.Row="5"
+            <RefreshView
                 Margin="10,0,10,5"
-                HorizontalOptions="CenterAndExpand"
-                HorizontalScrollBarVisibility="Never"
-                ItemsSource="{Binding ListaGraficoView, Mode=OneWay}"
-                SelectionMode="Single"
-                VerticalOptions="StartAndExpand">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <custom:CustomGrafico />
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                Grid.Row="5"
+                Command="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+                <CollectionView
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalScrollBarVisibility="Never"
+                    ItemsSource="{Binding ListaGraficoView, Mode=OneWay}"
+                    SelectionMode="Single"
+                    VerticalOptions="StartAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <custom:CustomGrafico />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
-                </CollectionView.ItemsLayout>
-            </CollectionView>
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+            </RefreshView>
         </Grid>
 
     </baseContent:BaseContentPage.Content>

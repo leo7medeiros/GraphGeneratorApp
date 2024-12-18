@@ -8,8 +8,8 @@
         public double VotalidadeMedia { get; set; }
         public double RetornoMedio { get; set; }
         public int Tempo { get; set; }
-        public Color? CorFundoGrafico { get; set; }
-        public Color? CorFrenteGrafico { get; set; }
+        public string? CorFundoGrafico { get; set; } = "#005495";
+        public string? CorFrenteGrafico { get; set; } = "#F79B42";
 
         public SimulacaoModel()
         {
@@ -26,7 +26,7 @@
             Tempo = tempo;
         }
 
-        public SimulacaoModel(int id, string descricao, double precoInicial, double votalidadeMedia, double retornoMedio, int tempo, Color corFundoGrafico, Color corFrenteGrafico)
+        public SimulacaoModel(int id, string descricao, double precoInicial, double votalidadeMedia, double retornoMedio, int tempo, string corFundoGrafico, string corFrenteGrafico)
         {
             Id = id;
             Descricao = descricao;

@@ -13,7 +13,7 @@
         <Setter Property="FontSize" Value="16" />
         <Setter Property="TextColor" Value="{StaticResource TEXTO_PRETO}" />
     </Style>
-    
+
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>

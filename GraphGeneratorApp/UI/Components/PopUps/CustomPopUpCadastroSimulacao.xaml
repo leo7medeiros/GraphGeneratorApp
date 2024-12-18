@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
     xmlns:custom="clr-namespace:GraphGeneratorApp.UI.Components"
+    xmlns:cvn="clr-namespace:GraphGeneratorApp.Conversores"
     xmlns:pop="clr-namespace:Mopups.Pages;assembly=Mopups"
     BackgroundColor="{StaticResource BACKGROUND_POPUP_SHADOW}"
     CloseWhenBackgroundIsClicked="False">
@@ -19,6 +20,12 @@
             ScaleOut="0.7" />
     </pop:PopupPage.Animation>
 
+    <pop:PopupPage.Resources>
+        <ResourceDictionary>
+            <cvn:RadioButtonConverter x:Key="RadioButtonConverterKey" />
+        </ResourceDictionary>
+    </pop:PopupPage.Resources>
+
     <Frame
         Margin="10"
         Padding="0"
@@ -27,7 +34,7 @@
         HorizontalOptions="Center"
         MaximumWidthRequest="550"
         VerticalOptions="Center">
-        <Grid RowDefinitions="60, *, 60">
+        <Grid RowDefinitions="60, Auto, 60">
             <!--  CABEÇALHO  -->
             <VerticalStackLayout Grid.Row="0">
                 <Label
@@ -70,28 +77,6 @@
                         ReturnType="Next"
                         Text="{Binding PrecoInicial}" />
 
-                    <!--  CAMPO VOTALIDADE MÉDIA  -->
-                    <custom:CustomBoxEntry
-                        BackgroundColor="{x:StaticResource TRANSPARENT}"
-                        ErrorText="{Binding ErrorIpHost}"
-                        HasError="{Binding IsErrorIpHost}"
-                        Keyboard="Numeric"
-                        LabelText="Votalidade média (%)"
-                        Placeholder=""
-                        ReturnType="Next"
-                        Text="{Binding VotalidadeMedia}" />
-
-                    <!--  CAMPO RETORNO MÉDIO  -->
-                    <custom:CustomBoxEntry
-                        BackgroundColor="{x:StaticResource TRANSPARENT}"
-                        ErrorText="{Binding ErrorIpHost}"
-                        HasError="{Binding IsErrorIpHost}"
-                        Keyboard="Numeric"
-                        LabelText="Retorno médio (%)"
-                        Placeholder=""
-                        ReturnType="Next"
-                        Text="{Binding RetornoMedio}" />
-
                     <!--  CAMPO TEMPO  -->
                     <custom:CustomBoxEntry
                         BackgroundColor="{x:StaticResource TRANSPARENT}"
@@ -102,9 +87,168 @@
                         Placeholder=""
                         ReturnType="Next"
                         Text="{Binding Tempo}" />
+
+                    <!--  CAMPO VOTALIDADE MÉDIA  -->
+                    <StackLayout
+                        Margin="0,10,0,0"
+                        Orientation="Vertical"
+                        Spacing="0">
+                        <Label
+                            Margin="5,0,0,0"
+                            FontAttributes="Bold"
+                            FontSize="Subtitle"
+                            HorizontalTextAlignment="Start"
+                            Text="Votalidade média (%)"
+                            TextColor="{StaticResource TEXTO_CINZA}" />
+
+                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                            <Slider
+                                Margin="-5,0,0,0"
+                                Maximum="100"
+                                MaximumTrackColor="{StaticResource TEXTO_CINZA}"
+                                Minimum="0"
+                                MinimumTrackColor="{StaticResource AZUL_ESCURO_PRIMARIO}"
+                                ThumbColor="{x:StaticResource LARANJA_SECUNDARIO}"
+                                ValueChanged="SliderVotalidade_ValueChanged"
+                                VerticalOptions="Center"
+                                WidthRequest="305"
+                                Value="{Binding VotalidadeMedia}" />
+
+                            <Label
+                                x:Name="lblSliderVotalidade"
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                HorizontalOptions="EndAndExpand"
+                                Text="{Binding VotalidadeMedia, StringFormat='{0}%', Mode=OneWay}"
+                                TextColor="{StaticResource AZUL_ESCURO_PRIMARIO}"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </StackLayout>
+
+                    <!--  CAMPO RETORNO MÉDIO  -->
+                    <StackLayout
+                        Margin="0,10,0,0"
+                        Orientation="Vertical"
+                        Spacing="0">
+                        <Label
+                            Margin="5,0,0,0"
+                            FontAttributes="Bold"
+                            FontSize="Subtitle"
+                            HorizontalTextAlignment="Start"
+                            Text="Retorno médio (%)"
+                            TextColor="{StaticResource TEXTO_CINZA}" />
+
+                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                            <Slider
+                                Margin="-5,0,0,0"
+                                Maximum="100"
+                                MaximumTrackColor="{StaticResource TEXTO_CINZA}"
+                                Minimum="0"
+                                MinimumTrackColor="{StaticResource AZUL_ESCURO_PRIMARIO}"
+                                ThumbColor="{x:StaticResource LARANJA_SECUNDARIO}"
+                                ValueChanged="SliderRetorno_ValueChanged"
+                                VerticalOptions="Center"
+                                WidthRequest="305"
+                                Value="{Binding RetornoMedio}" />
+
+                            <Label
+                                x:Name="lblSliderRetorno"
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                HorizontalOptions="EndAndExpand"
+                                Text="{Binding RetornoMedio, StringFormat='{0}%', Mode=OneWay}"
+                                TextColor="{StaticResource AZUL_ESCURO_PRIMARIO}"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </StackLayout>
+
+                    <!--  COR FUNDO  -->
+                    <StackLayout Margin="0,10,0,0" Orientation="Horizontal">
+                        <StackLayout Orientation="Vertical" Spacing="-5">
+                            <Label
+                                Margin="5,0,0,0"
+                                FontAttributes="Bold"
+                                FontSize="Subtitle"
+                                HorizontalTextAlignment="Start"
+                                Text="Cor Fundo Gráfico"
+                                TextColor="{StaticResource TEXTO_CINZA}" />
+
+                            <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                <RadioButton
+                                    CheckedChanged="OnColorFundoChanged"
+                                    Content="AZUL"
+                                    GroupName="CorFundo"
+                                    IsChecked="{Binding CorFundoGrafico, Converter={StaticResource RadioButtonConverterKey}, ConverterParameter=#005495}"
+                                    TextColor="{StaticResource TEXTO_CINZA}" />
+                                <RadioButton
+                                    CheckedChanged="OnColorFundoChanged"
+                                    Content="PRETO"
+                                    GroupName="CorFundo"
+                                    IsChecked="{Binding CorFundoGrafico, Converter={StaticResource RadioButtonConverterKey}, ConverterParameter=#000000}"
+                                    TextColor="{StaticResource TEXTO_CINZA}" />
+                                <RadioButton
+                                    CheckedChanged="OnColorFundoChanged"
+                                    Content="LARANJA"
+                                    GroupName="CorFundo"
+                                    IsChecked="{Binding CorFundoGrafico, Converter={StaticResource RadioButtonConverterKey}, ConverterParameter=#F79B42}"
+                                    TextColor="{StaticResource TEXTO_CINZA}" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <BoxView
+                            x:Name="BoxFundo"
+                            Margin="31,20,0,0"
+                            BackgroundColor="Transparent"
+                            HeightRequest="20"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="20"
+                            Color="{Binding CorFundoGrafico}" />
+                    </StackLayout>
+
+                    <!--  COR FRENTE  -->
+                    <StackLayout Margin="0,10,0,0" Orientation="Horizontal">
+                        <StackLayout Orientation="Vertical" Spacing="-5">
+                            <Label
+                                Margin="5,0,0,0"
+                                FontAttributes="Bold"
+                                FontSize="Subtitle"
+                                HorizontalTextAlignment="Start"
+                                Text="Cor Frente Gráfico"
+                                TextColor="{StaticResource TEXTO_CINZA}" />
+
+                            <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                <RadioButton
+                                    CheckedChanged="OnColorFrenteChanged"
+                                    Content="LARANJA"
+                                    GroupName="CorFrente"
+                                    IsChecked="{Binding CorFrenteGrafico, Converter={StaticResource RadioButtonConverterKey}, ConverterParameter=#F79B42}"
+                                    TextColor="{StaticResource TEXTO_CINZA}" />
+                                <RadioButton
+                                    CheckedChanged="OnColorFrenteChanged"
+                                    Content="BRANCO"
+                                    GroupName="CorFrente"
+                                    IsChecked="{Binding CorFrenteGrafico, Converter={StaticResource RadioButtonConverterKey}, ConverterParameter=#FFFFFF}"
+                                    TextColor="{StaticResource TEXTO_CINZA}" />
+                                <RadioButton
+                                    CheckedChanged="OnColorFrenteChanged"
+                                    Content="AZUL"
+                                    GroupName="CorFrente"
+                                    IsChecked="{Binding CorFrenteGrafico, Converter={StaticResource RadioButtonConverterKey}, ConverterParameter=#005495}"
+                                    TextColor="{StaticResource TEXTO_CINZA}" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <BoxView
+                            x:Name="BoxFrente"
+                            Margin="20,20,0,0"
+                            BackgroundColor="Transparent"
+                            HeightRequest="20"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="20"
+                            Color="{Binding CorFrenteGrafico}" />
+                    </StackLayout>
                 </VerticalStackLayout>
             </ScrollView>
-
 
             <!--  RODAPÉ  -->
             <VerticalStackLayout Grid.Row="2" Margin="0,0,0,10">

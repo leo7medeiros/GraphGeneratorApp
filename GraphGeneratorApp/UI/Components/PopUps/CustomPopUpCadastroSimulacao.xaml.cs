@@ -29,7 +29,7 @@ public partial class CustomPopUpCadastroSimulacao : PopupPage
         }
         else
         {
-            await CustomPopUpMensagem.Alerta("AVISO!", "Todos os campos são obrigatórios.", Tipos.TipoNotificacao.Aviso);
+            await CustomPopUpMensagem.Alerta("AVISO!", "Todos os campos são obrigatórios e devem possuir valor maior que zero!", Tipos.TipoNotificacao.Aviso);
         }
     }
 
@@ -38,8 +38,48 @@ public partial class CustomPopUpCadastroSimulacao : PopupPage
         await MopupService.Instance.PopAsync();
     }
 
+    #region UTILITÁRIOS
+
     private bool ValidaCampos(SimulacaoModel simulacao)
     {
-        return true; // IMPLEMENTAR
+        return !string.IsNullOrEmpty(_simulacao.Descricao) && _simulacao.PrecoInicial > 0 && _simulacao.VotalidadeMedia > 0 && _simulacao.RetornoMedio > 0 && _simulacao.Tempo > 0;
     }
+
+    private void SliderVotalidade_ValueChanged(object sender, ValueChangedEventArgs e)
+    {
+        _simulacao.VotalidadeMedia = Math.Round(e.NewValue);
+        lblSliderVotalidade.Text = Math.Round(e.NewValue).ToString() + "%";
+    }
+
+    private void SliderRetorno_ValueChanged(object sender, ValueChangedEventArgs e)
+    {
+        _simulacao.RetornoMedio = Math.Round(e.NewValue);
+        lblSliderRetorno.Text = Math.Round(e.NewValue).ToString() + "%";
+    }
+
+    private void OnColorFundoChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (e.Value)
+        {
+            var selectedColor = (sender as RadioButton)?.Content.ToString();
+
+            string CorFundo = selectedColor.Equals("AZUL") ? "#005495" : selectedColor.Equals("PRETO") ? "#000000" : selectedColor.Equals("LARANJA") ? "#F79B42" : "#000000";
+            BoxFundo.Color = Color.FromHex(CorFundo);
+            _simulacao.CorFundoGrafico = CorFundo;
+        }
+    }
+
+    private void OnColorFrenteChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (e.Value)
+        {
+            var selectedColor = (sender as RadioButton)?.Content.ToString();
+
+            string CorFrente = selectedColor.Equals("LARANJA") ? "#F79B42" : selectedColor.Equals("BRANCO") ? "#FFFFFF" : selectedColor.Equals("AZUL") ? "#005495" : "#FFFFFF";
+            BoxFrente.Color = Color.FromHex(CorFrente);
+            _simulacao.CorFrenteGrafico = CorFrente;
+        }
+    }
+
+    #endregion
 }
