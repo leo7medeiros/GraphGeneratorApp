@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Mopups.Services;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace GraphGeneratorApp.UI.Views.BaseContent
@@ -34,6 +35,21 @@ namespace GraphGeneratorApp.UI.Views.BaseContent
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public static void FecharPopup(bool allAsync)
+        {
+            if (MopupService.Instance.PopupStack.Count > 0)
+            {
+                if (allAsync)
+                {
+                    MopupService.Instance.PopAllAsync(false);
+                }
+                else
+                {
+                    MopupService.Instance.PopAsync(false);
+                }
+            }
         }
 
         #region INOTIFYPROPERTYCHANGED

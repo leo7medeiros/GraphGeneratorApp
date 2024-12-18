@@ -26,6 +26,8 @@
         BorderColor="{StaticResource TRANSPARENT}"
         CornerRadius="10"
         HorizontalOptions="Center"
+        MaximumHeightRequest="500"
+        MaximumWidthRequest="650"
         VerticalOptions="Center">
         <Grid>
             <Grid.RowDefinitions>

@@ -1,0 +1,191 @@
+<Grid
+    x:Class="GraphGeneratorApp.UI.Components.CustomBoxEntry"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Margin="0"
+    Padding="0,5,0,10"
+    BackgroundColor="{StaticResource BACKGROUND_WHITE}"
+    ColumnDefinitions="*, Auto"
+    HorizontalOptions="FillAndExpand"
+    RowDefinitions="Auto, Auto">
+
+    <Grid.GestureRecognizers>
+        <TapGestureRecognizer Tapped="CustomBoxEntryTapped" />
+    </Grid.GestureRecognizers>
+
+    <StackLayout HorizontalOptions="FillAndExpand">
+        <!--  LABEL TEXT  -->
+        <Label
+            x:Name="labelText"
+            Margin="5,0,0,0"
+            FontAttributes="Bold"
+            FontSize="Subtitle"
+            HorizontalTextAlignment="Start"
+            IsVisible="True"
+            TextColor="{x:StaticResource TEXTO_CINZA}" />
+
+        <Border
+            x:Name="containerBorder"
+            Grid.ColumnSpan="2"
+            Padding="5"
+            BackgroundColor="{StaticResource BACKGROUND_WHITE}"
+            HorizontalOptions="FillAndExpand">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+            </Border.StrokeShape>
+
+            <StackLayout Orientation="Horizontal">
+                <!--  LEADING ICON  -->
+                <Image
+                    x:Name="leadingIcon"
+                    Margin="5,0"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"
+                    IsVisible="False">
+
+                    <Image.Triggers>
+                        <Trigger TargetType="Image" Property="IsVisible" Value="True">
+                            <Setter Property="WidthRequest" Value="30" />
+                        </Trigger>
+
+                        <Trigger TargetType="Image" Property="IsVisible" Value="False">
+                            <Setter Property="WidthRequest" Value="0" />
+                        </Trigger>
+                    </Image.Triggers>
+                </Image>
+
+                <!--  THE ENTRY  -->
+                <Entry
+                    x:Name="customEntry"
+                    BackgroundColor="{StaticResource BACKGROUND_WHITE}"
+                    Focused="CustomEntryFocused"
+                    FontSize="{OnIdiom Phone=Default,
+                                       Default=Medium}"
+                    HorizontalOptions="FillAndExpand"
+                    TextColor="{x:StaticResource TEXTO_BLACK_COLOR}"
+                    Unfocused="CustomEntryUnfocused"
+                    VerticalOptions="Center">
+                </Entry>
+
+                <!--  TRAILING ICON  -->
+                <Image
+                    x:Name="trailingIcon"
+                    Margin="0,0,18,0"
+                    HeightRequest="30"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    WidthRequest="30" />
+
+                <!--  EYE ICON FOR PASSWORD  -->
+                <Image
+                    x:Name="passwordIcon"
+                    Margin="0,0,15,0"
+                    Aspect="AspectFit"
+                    HeightRequest="25"
+                    HorizontalOptions="End"
+                    IsVisible="False"
+                    WidthRequest="25">
+
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="PasswordEyeTapped" />
+                    </Image.GestureRecognizers>
+
+                    <Image.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Source={x:Reference customEntry}, Path=IsPassword}"
+                            TargetType="Image"
+                            Value="True">
+                            <Setter Property="Source" Value="olho_fechado.png" />
+                        </DataTrigger>
+
+                        <DataTrigger
+                            Binding="{Binding Source={x:Reference customEntry}, Path=IsPassword}"
+                            TargetType="Image"
+                            Value="False">
+                            <Setter Property="Source" Value="olho_aberto.png" />
+                        </DataTrigger>
+                    </Image.Triggers>
+                </Image>
+            </StackLayout>
+        </Border>
+    </StackLayout>
+
+    <!--  PLACEHOLDER  -->
+    <StackLayout
+        x:Name="placeholderContainer"
+        Padding="2,0"
+        BackgroundColor="{StaticResource BACKGROUND_WHITE}"
+        HorizontalOptions="Start"
+        Spacing="0"
+        VerticalOptions="Center">
+
+        <StackLayout.Triggers>
+            <DataTrigger
+                Binding="{Binding Source={x:Reference leadingIcon}, Path=IsVisible}"
+                TargetType="StackLayout"
+                Value="True">
+
+                <Setter Property="Margin" Value="50, 28, 56, 0" />
+            </DataTrigger>
+
+            <DataTrigger
+                Binding="{Binding Source={x:Reference leadingIcon}, Path=IsVisible}"
+                TargetType="StackLayout"
+                Value="False">
+
+                <Setter Property="Margin" Value="15, 28, 60, 0" />
+            </DataTrigger>
+
+            <DataTrigger
+                Binding="{Binding Source={x:Reference placeholder}, Path=Text}"
+                TargetType="StackLayout"
+                Value="">
+
+                <Setter Property="IsVisible" Value="False" />
+            </DataTrigger>
+        </StackLayout.Triggers>
+
+        <Label
+            x:Name="placeholder"
+            BackgroundColor="{StaticResource BACKGROUND_WHITE}"
+            FontSize="Default"
+            Opacity="0.7"
+            TextColor="{x:StaticResource TEXTO_CINZA}"
+            VerticalOptions="StartAndExpand"
+            VerticalTextAlignment="Start" />
+    </StackLayout>
+
+    <!--  HELPER TEXT  -->
+    <Label
+        x:Name="helperText"
+        Grid.Row="1"
+        Grid.Column="0"
+        Margin="18,0,0,0"
+        FontSize="Small"
+        IsVisible="false"
+        LineBreakMode="WordWrap"
+        TextColor="{x:StaticResource TEXTO_CINZA}" />
+
+    <!--  CHAR COUNTER  -->
+    <Label
+        x:Name="charCounterText"
+        Grid.Row="1"
+        Grid.Column="1"
+        Margin="0,0,18,0"
+        FontSize="Small"
+        HorizontalTextAlignment="End"
+        IsVisible="false"
+        TextColor="{x:StaticResource TEXTO_CINZA}" />
+
+    <!--  ERROR TEXT  -->
+    <Label
+        x:Name="errorText"
+        Grid.Row="1"
+        Grid.Column="0"
+        Margin="18,0,0,0"
+        FontSize="Small"
+        IsVisible="false"
+        LineBreakMode="WordWrap"
+        TextColor="Red" />
+</Grid>

@@ -3,10 +3,10 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:componentes="using:GraphGeneratorApp.UI.Components">
+    xmlns:components="using:GraphGeneratorApp.UI.Components">
 
     <!--  BOTÃO PRIMÁRIO  -->
-    <Style x:Key="BotaoPrimarioStyle" TargetType="componentes:CustomBotaoGeral">
+    <Style x:Key="BotaoPrimarioStyle" TargetType="components:CustomBotaoGeral">
         <Setter Property="CorFundo" Value="{StaticResource AZUL_ESCURO_PRIMARIO}" />
         <Setter Property="CorTexto" Value="{StaticResource TEXTO_BRANCO}" />
         <Setter Property="WidthRequest" Value="320" />
@@ -14,7 +14,7 @@
     </Style>
 
     <!--  BOTÃO SECUNDÁRIO  -->
-    <Style x:Key="BotaoSecundarioStyle" TargetType="componentes:CustomBotaoGeral">
+    <Style x:Key="BotaoSecundarioStyle" TargetType="components:CustomBotaoGeral">
         <Setter Property="CorFundo" Value="{StaticResource LARANJA_SECUNDARIO}" />
         <Setter Property="CorTexto" Value="{StaticResource TEXTO_BRANCO}" />
         <Setter Property="WidthRequest" Value="320" />

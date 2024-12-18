@@ -1,9 +1,211 @@
-﻿using GraphGeneratorApp.UI.Views.BaseContent;
+﻿using GraphGeneratorApp.Data.Enums;
+using GraphGeneratorApp.Models;
+using GraphGeneratorApp.UI.Components;
+using GraphGeneratorApp.UI.Views.BaseContent;
+using Microcharts;
+using Mopups.Services;
+using SkiaSharp;
+using System.Collections.ObjectModel;
 
 namespace GraphGeneratorApp.ViewModels
 {
     public class SimulacaoViewModel : BaseViewModel
     {
+        #region PROPERTIES
 
+        private ObservableCollection<GraficoViewModel> _listaGraficoView = [];
+        public ObservableCollection<GraficoViewModel> ListaGraficoView
+        {
+            get => _listaGraficoView;
+            set
+            {
+                _listaGraficoView = value; OnPropertyChanged(nameof(ListaGraficoView));
+            }
+        }
+
+        private int _qtdeSimulacoes = 0;
+        public int QtdeSimulacoes
+        {
+            get => _qtdeSimulacoes;
+            set
+            {
+                _qtdeSimulacoes = value; OnPropertyChanged(nameof(QtdeSimulacoes));
+            }
+        }
+
+        private int IdGraficoExclusao = 0;
+
+        #endregion
+
+        #region MANIPULAÇÃO DA LISTA DE GRÁFICOS
+
+        public async void SalvarGrafico(SimulacaoModel simulacao)
+        {
+            try
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    // OBTEM VALORES PARA GERAÇÃO DO GRÁFICO
+                    double[] valoresGrafico = GenerateBrownianMotion(simulacao.VotalidadeMedia, simulacao.RetornoMedio, simulacao.PrecoInicial, simulacao.Tempo);
+
+                    // GERA GRÁFICO PERSONALIZADO
+                    Chart grafico = GeraGrafico(valoresGrafico, simulacao);
+
+                    if (simulacao.Id != 0) // EDITAR SIMULAÇÃO
+                    {
+                        GraficoViewModel? graficoView = ListaGraficoView.FirstOrDefault(x => x.Simulacao.Id == simulacao.Id);
+                        graficoView.Simulacao = simulacao;
+                        graficoView.Grafico = grafico;
+                    }
+                    else // GERAR NOVA SIMULAÇÃO
+                    {
+                        int idGrafico = ListaGraficoView.Count > 0 ? ListaGraficoView.OrderByDescending(x => x.Simulacao.Id)
+                                                                                     .Select(x => x.Simulacao.Id)
+                                                                                     .FirstOrDefault() : 0;
+
+                        simulacao.Id = idGrafico + 1;
+
+                        GraficoViewModel graficoView = new GraficoViewModel(simulacao, grafico)
+                        {
+                            AbrirPopUpGrafico = AbrirPopUpGrafico_Command,
+                            EditarGrafico = Editar_Command,
+                            ExcluirGrafico = Excluir_Command,
+                        };
+
+                        ListaGraficoView.Add(graficoView);
+                    }
+
+                    QtdeSimulacoes = ListaGraficoView.Count;
+                });
+            }
+            catch (Exception ex)
+            {
+                await CustomPopUpMensagem.Alerta("ERRO!", ex.Message, Tipos.TipoNotificacao.Erro);
+            }
+        }
+
+        public async Task ExcluirGrafico()
+        {
+            try
+            {
+                var grafico = ListaGraficoView.FirstOrDefault(x => x.Simulacao.Id == IdGraficoExclusao);
+
+                if (grafico != null)
+                {
+                    ListaGraficoView.Remove(grafico);
+                    QtdeSimulacoes = ListaGraficoView.Count;
+                }
+            }
+            catch (Exception ex)
+            {
+                await CustomPopUpMensagem.Alerta("ERRO!", ex.Message, Tipos.TipoNotificacao.Erro);
+            }
+        }
+
+        public async Task LimparListaGraficos()
+        {
+            try
+            {
+                ListaGraficoView.Clear();
+            }
+            catch (Exception ex)
+            {
+                await CustomPopUpMensagem.Alerta("ERRO!", ex.Message, Tipos.TipoNotificacao.Erro);
+            }
+        }
+
+        #endregion
+
+        #region GERAÇÃO DOS GRÁFICOS
+
+        public static double[] GenerateBrownianMotion(double votalidadeMedia, double retornoMedio, double precoInicial, int tempo)
+        {
+            try
+            {
+                Random rand = new();
+                double[] valores = new double[tempo];
+                valores[0] = precoInicial;
+
+                for (int i = 1; i < tempo; i++)
+                {
+                    double u1 = 1.0 - rand.NextDouble();
+                    double u2 = 1.0 - rand.NextDouble();
+                    double z = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
+
+                    double retornoDiario = retornoMedio + votalidadeMedia * z;
+
+                    valores[i] = valores[i - 1] * Math.Exp(retornoDiario);
+                }
+
+                return valores;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private Chart GeraGrafico(double[] valores, SimulacaoModel simulacao)
+        {
+            var entries = new List<ChartEntry>();
+
+            for (int i = 0; i < valores.Length; i++)
+            {
+                entries.Add(new ChartEntry((float)valores[i])
+                {
+                    Label = $"Dia {i + 1}",
+                    ValueLabel = valores[i].ToString("F2"),
+                    Color = SKColor.Parse("#F79B42")
+                });
+            }
+
+            var chart = new LineChart
+            {
+                Entries = entries,
+                LineMode = LineMode.Straight,
+                LineSize = 8,
+                PointSize = 4,
+                LabelColor = SKColor.Parse("#F79B42"),
+                BackgroundColor = SKColor.Parse("#005495")
+            };
+
+            return chart;
+        }
+
+        #endregion
+
+        #region COMMANDS
+
+        public async void AbrirPopUpGrafico_Command(Chart grafico, string descricao)
+        {
+            var popup = new CustomPopUpExibirGrafico(grafico, descricao);
+            await MopupService.Instance.PushAsync(popup);
+        }
+
+        public async void Editar_Command(SimulacaoModel simulacao)
+        {
+            var popup = new CustomPopUpCadastroSimulacao(this, simulacao);
+            await MopupService.Instance.PushAsync(popup);
+        }
+
+        public async void Excluir_Command(int IdGrafico)
+        {
+            IdGraficoExclusao = IdGrafico;
+            var popup = new CustomPopUpConfirmar("ATENÇÃO!", "Deseja confirmar a exclusão?", "icone_aviso.svg", ExcluirGrafico, CancelarAcesso);
+            await MopupService.Instance.PushAsync(popup);
+        }
+
+        public async void LimparListaGraficos_Command()
+        {
+            var popup = new CustomPopUpConfirmar("ATENÇÃO!", "Deseja confirmar a exclusão de todas as simulações?", "icone_aviso.svg", LimparListaGraficos, CancelarAcesso);
+            await MopupService.Instance.PushAsync(popup);
+        }
+
+        public async Task CancelarAcesso()
+        {
+            FecharPopup(true);
+        }
+
+        #endregion
     }
 }

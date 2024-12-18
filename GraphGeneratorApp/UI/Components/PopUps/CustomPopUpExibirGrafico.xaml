@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <pop:PopupPage
-    x:Class="GraphGeneratorApp.UI.Components.CustomPopUpMensagem"
+    x:Class="GraphGeneratorApp.UI.Components.CustomPopUpExibirGrafico"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
     xmlns:custom="clr-namespace:GraphGeneratorApp.UI.Components"
+    xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
     xmlns:pop="clr-namespace:Mopups.Pages;assembly=Mopups"
     BackgroundColor="{StaticResource BACKGROUND_POPUP_SHADOW}"
     CloseWhenBackgroundIsClicked="False">
@@ -20,53 +21,48 @@
     </pop:PopupPage.Animation>
 
     <Frame
-        Margin="30"
+        Margin="10"
         Padding="5"
         BackgroundColor="{StaticResource BACKGROUND_WHITE}"
         CornerRadius="10"
-        HorizontalOptions="Center"
-        MaximumHeightRequest="500"
-        MaximumWidthRequest="650"
-        VerticalOptions="Center">
+        MaximumHeightRequest="400"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand">
+        <Grid RowDefinitions="Auto, *, Auto">
+            <Label
+                Margin="5"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                HorizontalOptions="CenterAndExpand"
+                Text="{Binding Descricao}"
+                TextColor="{StaticResource AZUL_ESCURO_PRIMARIO}"
+                VerticalOptions="Start" />
 
-        <StackLayout Orientation="Vertical">
-            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto">
-                <Label
-                    Margin="10,5,5,0"
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    HorizontalOptions="StartAndExpand"
-                    Text="{Binding Titulo}"
-                    TextColor="{Binding CorMensagem}"
-                    VerticalOptions="Start" />
+            <!--  GRÁFICO  -->
+            <Frame
+                Grid.Row="1"
+                Padding="0"
+                BackgroundColor="{Binding Grafico.BackgroundColor}"
+                BorderColor="Transparent"
+                CornerRadius="10">
+                <microcharts:ChartView
+                    x:Name="ChartView"
+                    Chart="{Binding Grafico}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Center" />
+            </Frame>
 
-                <custom:CustomRenderizadorSVG
-                    x:Name="iconeSVG"
-                    Grid.Column="1"
-                    Margin="2"
-                    CorIcone="{Binding CorMensagem}"
-                    HeightRequest="40"
-                    HorizontalOptions="EndAndExpand"
-                    Proporcao="True"
-                    VerticalOptions="Start"
-                    WidthRequest="40" />
-            </Grid>
-
-            <ScrollView Margin="5" MaximumHeightRequest="100">
-                <Label
-                    FontSize="Medium"
-                    LineBreakMode="WordWrap"
-                    Text="{Binding Mensagem}"
-                    TextColor="{x:StaticResource TEXTO_PRETO}" />
-            </ScrollView>
-
-            <StackLayout Margin="0,5,0,0" VerticalOptions="EndAndExpand">
+            <StackLayout
+                Grid.Row="2"
+                Margin="0,5,0,0"
+                VerticalOptions="EndAndExpand">
                 <Rectangle
                     BackgroundColor="{x:StaticResource BACKGROUND_CINZA_CLARO}"
                     HeightRequest="1"
                     HorizontalOptions="FillAndExpand"
                     StrokeThickness="1" />
 
+                <!--  BOTÃO OK  -->
                 <custom:CustomBotaoGeral
                     x:Name="btnOk"
                     Margin="10,10,0,5"
@@ -78,7 +74,7 @@
                     Texto="OK"
                     VerticalOptions="EndAndExpand" />
             </StackLayout>
-        </StackLayout>
+        </Grid>
     </Frame>
 
 </pop:PopupPage>

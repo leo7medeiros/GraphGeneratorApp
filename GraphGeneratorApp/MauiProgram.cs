@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
 using Mopups.Hosting;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -14,7 +15,8 @@ namespace GraphGeneratorApp
                             .UseMauiApp<App>()
                             .UseMauiCommunityToolkit()
                             .ConfigureMopups()
-                            .UseSkiaSharp();
+                            .UseSkiaSharp()
+                            .UseMicrocharts();
 
             mauiAppBuilder.ConfigureFonts(fonts =>
             {

@@ -25,7 +25,7 @@ namespace GraphGeneratorApp.Core.Utilidades
                 (byte)(color.Alpha * 255));
         }
 
-        private static readonly string BaseResourcePath = "MauiAppProject.Resources.Images.Incorporadas.";
+        private static readonly string BaseResourcePath = "GraphGeneratorApp.Resources.Images.Incorporadas.";
 
         public static SKSvg LoadSvg(string fileName)
         {

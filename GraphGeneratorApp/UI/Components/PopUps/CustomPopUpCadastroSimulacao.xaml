@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pop:PopupPage
+    x:Class="GraphGeneratorApp.UI.Components.CustomPopUpCadastroSimulacao"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:custom="clr-namespace:GraphGeneratorApp.UI.Components"
+    xmlns:pop="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="{StaticResource BACKGROUND_POPUP_SHADOW}"
+    CloseWhenBackgroundIsClicked="False">
+
+    <pop:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="300"
+            EasingIn="SpringIn"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1"
+            ScaleOut="0.7" />
+    </pop:PopupPage.Animation>
+
+    <Frame
+        Margin="10"
+        Padding="0"
+        BackgroundColor="{StaticResource BACKGROUND_WHITE}"
+        CornerRadius="10"
+        HorizontalOptions="Center"
+        MaximumWidthRequest="550"
+        VerticalOptions="Center">
+        <Grid RowDefinitions="60, *, 60">
+            <!--  CABEÇALHO  -->
+            <VerticalStackLayout Grid.Row="0">
+                <Label
+                    Margin="10"
+                    FontAttributes="Bold"
+                    FontSize="Subtitle"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="GERAÇÃO DE SIMULAÇÃO"
+                    TextColor="{StaticResource AZUL_ESCURO_PRIMARIO}" />
+
+                <BoxView
+                    Margin="3,0,3,0"
+                    BackgroundColor="{StaticResource BACKGROUND_LIGHTGRAY}"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand" />
+            </VerticalStackLayout>
+
+            <!--  CORPO  -->
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Margin="10,0,10,20" Spacing="0">
+                    <!--  CAMPO DESCRICAO  -->
+                    <custom:CustomBoxEntry
+                        BackgroundColor="{x:StaticResource TRANSPARENT}"
+                        ErrorText="{Binding ErrorIpHost}"
+                        HasError="{Binding IsErrorIpHost}"
+                        Keyboard="Text"
+                        LabelText="Descrição"
+                        Placeholder=""
+                        ReturnType="Next"
+                        Text="{Binding Descricao}" />
+
+                    <!--  CAMPO PREÇO INICIAL  -->
+                    <custom:CustomBoxEntry
+                        BackgroundColor="{x:StaticResource TRANSPARENT}"
+                        ErrorText="{Binding ErrorIpHost}"
+                        HasError="{Binding IsErrorIpHost}"
+                        Keyboard="Numeric"
+                        LabelText="Preço inicial"
+                        Placeholder=""
+                        ReturnType="Next"
+                        Text="{Binding PrecoInicial}" />
+
+                    <!--  CAMPO VOTALIDADE MÉDIA  -->
+                    <custom:CustomBoxEntry
+                        BackgroundColor="{x:StaticResource TRANSPARENT}"
+                        ErrorText="{Binding ErrorIpHost}"
+                        HasError="{Binding IsErrorIpHost}"
+                        Keyboard="Numeric"
+                        LabelText="Votalidade média (%)"
+                        Placeholder=""
+                        ReturnType="Next"
+                        Text="{Binding VotalidadeMedia}" />
+
+                    <!--  CAMPO RETORNO MÉDIO  -->
+                    <custom:CustomBoxEntry
+                        BackgroundColor="{x:StaticResource TRANSPARENT}"
+                        ErrorText="{Binding ErrorIpHost}"
+                        HasError="{Binding IsErrorIpHost}"
+                        Keyboard="Numeric"
+                        LabelText="Retorno médio (%)"
+                        Placeholder=""
+                        ReturnType="Next"
+                        Text="{Binding RetornoMedio}" />
+
+                    <!--  CAMPO TEMPO  -->
+                    <custom:CustomBoxEntry
+                        BackgroundColor="{x:StaticResource TRANSPARENT}"
+                        ErrorText="{Binding ErrorIpHost}"
+                        HasError="{Binding IsErrorIpHost}"
+                        Keyboard="Numeric"
+                        LabelText="Tempo (dias)"
+                        Placeholder=""
+                        ReturnType="Next"
+                        Text="{Binding Tempo}" />
+                </VerticalStackLayout>
+            </ScrollView>
+
+
+            <!--  RODAPÉ  -->
+            <VerticalStackLayout Grid.Row="2" Margin="0,0,0,10">
+                <BoxView
+                    Margin="3,0,3,10"
+                    BackgroundColor="{StaticResource BACKGROUND_LIGHTGRAY}"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand" />
+
+                <Grid Margin="10,0,10,0" ColumnDefinitions="50*, 50*">
+                    <!--  BOTÃO CANCELAR  -->
+                    <custom:CustomBotaoGeral
+                        Grid.Column="0"
+                        Altura="40"
+                        Clicado="Cancelar_Clicked"
+                        HorizontalOptions="StartAndExpand"
+                        Largura="125"
+                        Style="{StaticResource BotaoSecundarioStyle}"
+                        Texto="CANCELAR"
+                        VerticalOptions="CenterAndExpand" />
+
+                    <!--  BOTÃO SALVAR  -->
+                    <custom:CustomBotaoGeral
+                        Grid.Column="1"
+                        Altura="40"
+                        Clicado="Salvar_Clicked"
+                        HorizontalOptions="EndAndExpand"
+                        Largura="125"
+                        Style="{StaticResource BotaoPrimarioStyle}"
+                        Texto="SALVAR"
+                        VerticalOptions="CenterAndExpand" />
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+    </Frame>
+
+</pop:PopupPage>

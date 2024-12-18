@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="GraphGeneratorApp.UI.Components.CustomGrafico"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:GraphGeneratorApp.UI.Components"
+    xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+    xmlns:vm="clr-namespace:GraphGeneratorApp.ViewModels"
+    BackgroundColor="{StaticResource BACKGROUND_WHITE}"
+    NavigationPage.HasNavigationBar="False">
+
+    <ContentView.Content>
+
+        <Frame
+            Padding="5"
+            BackgroundColor="{StaticResource TEXTO_PRETO}"
+            x:DataType="vm:GraficoViewModel"
+            BorderColor="{StaticResource TEXTO_PRETO}"
+            CornerRadius="10"
+            HeightRequest="400"
+            HorizontalOptions="FillAndExpand">
+            <Grid BackgroundColor="{StaticResource TEXTO_PRETO}" RowDefinitions="Auto, *">
+                <StackLayout
+                    Margin="5"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <!--  BOTÃO EXCLUIR  -->
+                    <Path
+                        Data="M1.71429 21.7499C1.71429 22.3466 1.9852 22.9189 2.46744 23.3409C2.94968 23.7628 3.60373 23.9999 4.28571 23.9999H19.7143C20.3963 23.9999 21.0503 23.7628 21.5326 23.3409C22.0148 22.9189 22.2857 22.3466 22.2857 21.7499V5.99989H1.71429V21.7499ZM16.2857 9.74989C16.2857 9.55097 16.376 9.36021 16.5368 9.21956C16.6975 9.0789 16.9155 8.99989 17.1429 8.99989C17.3702 8.99989 17.5882 9.0789 17.7489 9.21956C17.9097 9.36021 18 9.55097 18 9.74989V20.2499C18 20.4488 17.9097 20.6396 17.7489 20.7802C17.5882 20.9209 17.3702 20.9999 17.1429 20.9999C16.9155 20.9999 16.6975 20.9209 16.5368 20.7802C16.376 20.6396 16.2857 20.4488 16.2857 20.2499V9.74989ZM11.1429 9.74989C11.1429 9.55097 11.2332 9.36021 11.3939 9.21956C11.5547 9.0789 11.7727 8.99989 12 8.99989C12.2273 8.99989 12.4453 9.0789 12.6061 9.21956C12.7668 9.36021 12.8571 9.55097 12.8571 9.74989V20.2499C12.8571 20.4488 12.7668 20.6396 12.6061 20.7802C12.4453 20.9209 12.2273 20.9999 12 20.9999C11.7727 20.9999 11.5547 20.9209 11.3939 20.7802C11.2332 20.6396 11.1429 20.4488 11.1429 20.2499V9.74989ZM6 9.74989C6 9.55097 6.09031 9.36021 6.25105 9.21956C6.4118 9.0789 6.62981 8.99989 6.85714 8.99989C7.08447 8.99989 7.30249 9.0789 7.46323 9.21956C7.62398 9.36021 7.71429 9.55097 7.71429 9.74989V20.2499C7.71429 20.4488 7.62398 20.6396 7.46323 20.7802C7.30249 20.9209 7.08447 20.9999 6.85714 20.9999C6.62981 20.9999 6.4118 20.9209 6.25105 20.7802C6.09031 20.6396 6 20.4488 6 20.2499V9.74989ZM23.1429 1.49989H16.7143L16.2107 0.623324C16.104 0.435924 15.9397 0.278287 15.7362 0.168148C15.5328 0.0580085 15.2982 -0.000264006 15.0589 -0.000113852H8.93571C8.69699 -0.000916846 8.46283 0.0571383 8.26007 0.1674C8.05731 0.277662 7.89415 0.435671 7.78929 0.623324L7.28571 1.49989H0.857143C0.629814 1.49989 0.411797 1.5789 0.251051 1.71956C0.0903059 1.86021 0 2.05097 0 2.24989L0 3.74989C0 3.9488 0.0903059 4.13956 0.251051 4.28022C0.411797 4.42087 0.629814 4.49989 0.857143 4.49989H23.1429C23.3702 4.49989 23.5882 4.42087 23.7489 4.28022C23.9097 4.13956 24 3.9488 24 3.74989V2.24989C24 2.05097 23.9097 1.86021 23.7489 1.71956C23.5882 1.5789 23.3702 1.49989 23.1429 1.49989Z"
+                        Fill="{x:StaticResource LARANJA_SECUNDARIO}"
+                        HorizontalOptions="StartAndExpand">
+                        <Path.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{Binding Simulacao.Id}" Tapped="btnExcluir_Tapped" />
+                        </Path.GestureRecognizers>
+                    </Path>
+
+                    <!--  DESCRIÇÃO  -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding Simulacao.Descricao}"
+                        TextColor="{StaticResource AZUL_ESCURO_PRIMARIO}" />
+
+                    <!--  BOTÃO EDITAR  -->
+                    <Path
+                        Data="M23.3389 6.66158L21.178 8.82252C20.9577 9.04283 20.6014 9.04283 20.3811 8.82252L15.178 3.61939C14.9577 3.39908 14.9577 3.04283 15.178 2.82251L17.3389 0.661573C18.2155 -0.21499 19.6405 -0.21499 20.5217 0.661573L23.3389 3.47876C24.2201 4.35533 24.2201 5.78033 23.3389 6.66158ZM13.3217 4.67877L1.01236 16.9882L0.0186158 22.6835C-0.117322 23.4522 0.55299 24.1178 1.32174 23.9866L7.01704 22.9882L19.3264 10.6788C19.5467 10.4585 19.5467 10.1022 19.3264 9.8819L14.1233 4.67877C13.8983 4.45845 13.542 4.45845 13.3217 4.67877ZM5.81705 15.9335C5.55923 15.6757 5.55923 15.2632 5.81705 15.0053L13.0358 7.78658C13.2936 7.52877 13.7061 7.52877 13.9639 7.78658C14.2217 8.04439 14.2217 8.45689 13.9639 8.71471L6.74517 15.9335C6.48736 16.1913 6.07486 16.1913 5.81705 15.9335ZM4.12486 19.8757H6.37486V21.5772L3.35142 22.1069L1.89361 20.6491L2.4233 17.6257H4.12486V19.8757Z"
+                        Fill="{x:StaticResource LARANJA_SECUNDARIO}"
+                        HorizontalOptions="EndAndExpand">
+                        <Path.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{Binding .}" Tapped="btnEditar_Tapped" />
+                        </Path.GestureRecognizers>
+                    </Path>
+                </StackLayout>
+
+                <!--  GRÁFICO  -->
+                <Frame
+                    Grid.Row="1"
+                    Padding="0"
+                    BackgroundColor="{Binding Grafico.BackgroundColor}"
+                    BorderColor="Transparent"
+                    CornerRadius="10">
+                    <microcharts:ChartView x:Name="chartView" Chart="{Binding Grafico}">
+                        <microcharts:ChartView.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{Binding .}" Tapped="AbrirGrafico_Tapped" />
+                        </microcharts:ChartView.GestureRecognizers>
+                    </microcharts:ChartView>
+                </Frame>
+            </Grid>
+        </Frame>
+
+    </ContentView.Content>
+</ContentView>

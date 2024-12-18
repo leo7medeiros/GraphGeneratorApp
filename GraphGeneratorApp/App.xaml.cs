@@ -8,7 +8,7 @@ namespace GraphGeneratorApp
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new TelaPrincipalPage());
+            MainPage = new NavigationPage(new TelaPrincipal());
             NavigationPage.SetHasNavigationBar(MainPage, false);
         }
     }
